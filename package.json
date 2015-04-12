@@ -1,0 +1,15 @@
+{
+  "name": "marty-factory",
+  "version": "1.0.0",
+  "description": "A CLI tool for generating basic pieces of marty architecture",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nathan Holland <nathanh@granicus.com>",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.7.0",
+    "handlebars": "^3.0.0"
+  }
+}

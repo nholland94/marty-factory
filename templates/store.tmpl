@@ -1,0 +1,52 @@
+var Marty = require('marty');
+var {{constantsName}} = require('../constants/{{constantsName}}');
+
+var {{storeName}} = Marty.createStore({
+  displayName: {{pluralModelVariableName}},
+
+  handlers: {
+    receive{{pluralModelName}}: {{constantsName}}.{{receiveModelConstant}},
+    add{{modelName}}: {{constantsName}}.{{addModelConstant}},
+    update{{modelName}}: {{constantsName}}.{{updateModelConstant}},
+    remove{{modelName}}: {{constantsName}}.{{removeModelConstant}}
+  },
+
+  getInitialState: function() {
+    return [];
+  },
+
+  getAll{{pluralModelName}}: function() {
+    return this.state;
+  },
+
+  set{{modelName}}: function({{modelVariableName}}) {
+    this.state[{{modelVariableName}}.id] = {{modelVariableName}};
+  },
+
+  receive{{pluralModelName}}: function({{pluralModelVariableName}}) {
+    var store = this;
+
+    {{pluralModelVariableName}}.forEach(function({{modelVariableName}}) {
+      store.set{{modelName}}({{modelVariableName}});
+    });
+
+    this.hasChanged();
+  },
+
+  add{{modelName}}: function({{modelVariableName}}) {
+    this.set{{modelName}}({{modelVariableName}});
+  },
+
+  update{{modelName}}: function({{modelVariableName}}) {
+    this.set{{modelName}}({{modelVariableName}});
+  },
+
+  remove{{modelName}}: function({{modelVariableName}}Id) {
+    if({{modelVariableName}}Id in this.state) {
+      delete this.state[{{modelVariableName}}Id];
+      this.hasChanged();
+    }
+  }
+});
+
+module.exports = {{storeName}};
