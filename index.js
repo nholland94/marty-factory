@@ -46,6 +46,7 @@ var modelContext = function(modelName) {
 };
 
 var generateStore = function(modelName) {
+  console.info('Creating %s store...', modelName);
   var context = modelContext(modelName);
 };
 
@@ -76,3 +77,5 @@ program
   .command('source <sourceType> <modelName>')
   .description('Generate a source of the specified type.')
   .action(generateSource);
+
+program.parse(process.argv);
