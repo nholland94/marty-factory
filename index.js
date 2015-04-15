@@ -11,7 +11,7 @@ var merge = function(base) {
   for(var i in otherObjects) {
     var otherObject = otherObjects[i];
 
-    for(var key of otherObject) {
+    for(var key in otherObject) {
       base[key] = otherObject[key];
     }
   }
@@ -19,7 +19,7 @@ var merge = function(base) {
   return base;
 };
 
-var fail = function(failureMessage) { 
+var fail = function(failureMessage) {
   console.error(failureMessage);
   process.exit(1);
 };
