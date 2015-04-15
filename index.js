@@ -4,6 +4,7 @@ var path = require('path');
 var pkg = require(path.join(__dirname, 'package.json'));
 var Handlebars = require('handlebars');
 var pluralize = require('pluralize');
+var FileHelpers = require(path.join(__dirname+'/lib/', 'file_helpers'));
 
 var merge = function(base) {
   var otherObjects = arguments.splice(0, 1);
@@ -46,8 +47,32 @@ var modelContext = function(modelName) {
 };
 
 var generateStore = function(modelName) {
-  console.info('Creating %s store...', modelName);
+  console.log('Creating %s store ...', modelName);
   var context = modelContext(modelName);
+  var templateText = FileHelpers.getTemplateText('./templates/store.tmpl');
+
+  var template = Handlebars.compile(templateText);
+  var output = template(context);
+
+  var fileName = modelName + 'Store.jsx';
+  console.log("Writing file '%s' ...", fileName);
+  /*
+   * We should have a standard structure if options aren't provided to specify
+   * where the store should be created:
+   * - react
+   *   - actions
+   *   - components
+   *   - constants
+   *   - mixins
+   *   - sources
+   *   - stores
+   * Then if we haven't read in some sort of .marty-factory file where those are
+   * specified, we can assume this structure (and it can be overridden with the
+   * command line arg
+   */
+  FileHelpers.writeFile(fileName, output);
+
+  console.log('%s store created successfully.', modelName);
 };
 
 var SourceGenerators = {
