@@ -31,48 +31,63 @@ var capitalizeFirstLetter = function(string) {
 
 var isCapitalized = function(character) {
   return character === character.toUpperCase();
-}
+};
+
+var underscoreModelName = function(modelName) {
+  return modelName.split(/(?=[A-Z])/).join('_');
+};
 
 var modelContext = function(modelName) {
   if(!isCapitalized(modelName.charAt(0))) {
     fail('Model name must be in CamelCase');
   }
 
+  var underscoredName = underscoreModelName(modelName).toUpperCase();
+  var underscoredPluralName = underscoreModelName(pluralize(modelName)).toUpperCase();
   return {
     modelName: modelName,
     pluralModelName: pluralize(modelName),
     modelVariableName: capitalizeFirstLetter(modelName),
-    pluralModelVariableName: pluralize(capitalizeFirstLetter(modelName))
+    pluralModelVariableName: pluralize(capitalizeFirstLetter(modelName)),
+    constantsName: modelName + 'Constants',
+    receiveModelConstant: 'RECEIVE_' + underscoredPluralName,
+    addModelConstant: 'ADD_' + underscoredName,
+    updateModelConstant: 'UPDATE_' + underscoredName,
+    removeModelConstant: 'REMOVE_' + underscoredName,
+    storeName: modelName + 'Store'
   };
+};
+
+var generateTemplateOutput = function(modelName, templatePath) {
+  var context = modelContext(modelName);
+  var templateText = FileHelpers.getTemplateText(templatePath);
+
+  var template = Handlebars.compile(templateText);
+  return template(context);
 };
 
 var generateStore = function(modelName) {
   console.log('Creating %s store ...', modelName);
-  var context = modelContext(modelName);
-  var templateText = FileHelpers.getTemplateText('./templates/store.tmpl');
-
-  var template = Handlebars.compile(templateText);
-  var output = template(context);
+  var output = generateTemplateOutput(modelName, './templates/store.tmpl');
 
   var fileName = modelName + 'Store.jsx';
   console.log("Writing file '%s' ...", fileName);
-  /*
-   * We should have a standard structure if options aren't provided to specify
-   * where the store should be created:
-   * - react
-   *   - actions
-   *   - components
-   *   - constants
-   *   - mixins
-   *   - sources
-   *   - stores
-   * Then if we haven't read in some sort of .marty-factory file where those are
-   * specified, we can assume this structure (and it can be overridden with the
-   * command line arg
-   */
+
   FileHelpers.writeFile(fileName, output);
 
   console.log('%s store created successfully.', modelName);
+};
+
+var generateConstants = function(modelName) {
+  console.log('Creating %s constants ...', modelName);
+  var output = generateTemplateOutput(modelName, './templates/constants.tmpl');
+
+  var fileName = modelName + 'Constants.jsx';
+  console.log('Writing file "%s" ...', fileName);
+
+  FileHelpers.writeFile(fileName, output);
+
+  console.log('%s constants created successfully.', modelName);
 };
 
 var SourceGenerators = {
@@ -102,5 +117,10 @@ program
   .command('source <sourceType> <modelName>')
   .description('Generate a source of the specified type.')
   .action(generateSource);
+
+program
+  .command('constants <modelName>')
+  .description('Generate constants for a model.')
+  .action(generateConstants);
 
 program.parse(process.argv);
