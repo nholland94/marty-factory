@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 var path = require('path');
 var pkg = require(path.join(__dirname, 'package.json'));
 var Handlebars = require('handlebars');
@@ -8,15 +6,12 @@ var FileHelpers = require(path.join(__dirname+'/lib/', 'file_helpers'));
 
 var merge = function(base) {
   var otherObjects = arguments.splice(0, 1);
-
   for(var i in otherObjects) {
     var otherObject = otherObjects[i];
-
     for(var key in otherObject) {
       base[key] = otherObject[key];
     }
   }
-
   return base;
 };
 
@@ -54,7 +49,8 @@ var modelContext = function(modelName) {
     addModelConstant: 'ADD_' + underscoredName,
     updateModelConstant: 'UPDATE_' + underscoredName,
     removeModelConstant: 'REMOVE_' + underscoredName,
-    storeName: modelName + 'Store'
+    storeName: modelName + 'Store',
+    stateName: modelName + 'State'
   };
 };
 
@@ -104,14 +100,31 @@ var generateSource = function(sourceType, modelName) {
   SourceGenerators[sourceType](modelName);
 };
 
+var generateComponent = function(modelName) {
+  console.log('Creating %s component...', modelName);
+  var output = generateTemplateOutput(modelName, './templates/component.tmpl');
+
+  var fileName = modelName + '.jsx';
+  console.log("Writing file '%s' ...", fileName);
+
+  FileHelpers.writeFile(fileName, output);
+
+  console.log('%s component created successfully.', modelName);
+};
+
 var program = require('commander');
 
 program.version(pkg.version);
 
 program
-  .command('store <modelName>')
-  .description('Generate a store and state mixin.')
-  .action(generateStore);
+  .command('component <modelName>')
+  .description('Generate a component.')
+  .action(generateComponent);
+
+program
+  .command('constants <modelName>')
+  .description('Generate constants for a model.')
+  .action(generateConstants);
 
 program
   .command('source <sourceType> <modelName>')
@@ -119,8 +132,10 @@ program
   .action(generateSource);
 
 program
-  .command('constants <modelName>')
-  .description('Generate constants for a model.')
-  .action(generateConstants);
+  .command('store <modelName>')
+  .description('Generate a store and state mixin.')
+  .action(generateStore);
+
+
 
 program.parse(process.argv);

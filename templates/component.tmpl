@@ -1,0 +1,39 @@
+var React = require('react');
+var {{storeName}} = require('../stores/{{storeName}}');
+var {{stateName}} = require('../mixins/{{stateName}}');
+
+var {{modelName}} = React.createClass({
+  mixins: [{{stateName}}],
+
+  render: function() {
+    return (
+      <div />
+    );
+  },
+
+  componentWillMount: function() {
+
+  },
+
+  componentDidMount: function() {
+
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+
+  },
+
+  componentWillUpdate: function(nextProps, nextState) {
+
+  },
+
+  componentDidUpdate: function(prevProps, prevState) {
+
+  },
+
+  componentWillUnmount: function() {
+
+  }
+});
+
+module.exports = {{modelName}};
