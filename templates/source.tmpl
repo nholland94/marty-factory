@@ -1,0 +1,58 @@
+var Marty = require('marty');
+var {{modelName}}ActionCreators =
+require(../actions/{{modelName}}ActionCreators);
+
+var {{modelName}}HttpAPI = Marty.createStateSource({
+  create: function({{paramModelName}}) {
+    this.post({
+      url: '{{sourceEndpoint}}',
+      body: {{paramModelName}}
+    }).then(function(response) {
+      {{modelName}}ActionCreators.create{{modelName}}(response.body);
+    }, function(errorResponse) {
+      if(errorResponse.hasBody) {
+        errorResponse.json().then(function() {}, function() {});
+      }
+    });
+  },
+
+  readAll: function() {
+    this.get(
+      '{{sourceEndpoint}}'
+    ).then(function(response) {
+      {{modelName}}ActionCreators.readAll{{pluralModelName}}(response.body);
+    }, function(errorResponse) {
+      if(errorResponse.hasBody) {
+        errorResponse.json().then(function() {}, function() {});
+      }
+    });
+  },
+
+  update: function({{paramModelName}}) {
+    this.put({
+      url: '{{sourceEndpoint}} + {{paramModelName}}.id',
+      body: {{paramModelName}}
+    }).then(function(response) {
+      {{modelName}}ActionCreators.update{{modelName}}(response.body);
+    }, function(errorResponse) {
+      if(errorResponse.hasBody) {
+        errorResponse.json().then(function() {}, function() {});
+      }
+    });
+
+  },
+
+  destroy: function({{paramModelName}}) {
+    this.delete(
+      '{{sourceEndpoint}} + {{paramModelName}}.id'
+    ).then(function(response) {
+      {{modelName}}AcionCreators.destroy{{modelName}}(response.body);
+    }, function(errorResponse) {
+      if(errorResponse.hasBody) {
+        errorResponse.json().then(function() {}, function() {});
+      }
+    });
+  },
+});
+
+module.exports = {{modelName}HttpAPI;

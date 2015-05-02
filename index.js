@@ -20,6 +20,10 @@ var fail = function(failureMessage) {
   process.exit(1);
 };
 
+var lowerCaseFirstLetter = function(string) {
+  return string.charAt(0).toLowerCase() + string.slice(1);
+};
+
 var capitalizeFirstLetter = function(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
@@ -42,6 +46,7 @@ var modelContext = function(modelName) {
   return {
     modelName: modelName,
     pluralModelName: pluralize(modelName),
+    paramModelName: lowerCaseFirstLetter(modelName),
     modelVariableName: capitalizeFirstLetter(modelName),
     pluralModelVariableName: pluralize(capitalizeFirstLetter(modelName)),
     constantsName: modelName + 'Constants',
@@ -92,7 +97,7 @@ var SourceGenerators = {
   }
 };
 
-var generateSource = function(sourceType, modelName) {
+var generateSource = function(sourceType, modelName, url) {
   if(!(sourceType in SourceGenerators)) {
     fail('Sorry, but only the http source is supported right now');
   }
@@ -128,6 +133,7 @@ program
 
 program
   .command('source <sourceType> <modelName>')
+  .option('-e, --endpoint [url]', 'API endpoint for model')
   .description('Generate a source of the specified type.')
   .action(generateSource);
 
