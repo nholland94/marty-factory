@@ -1,14 +1,14 @@
 var Marty = require('marty');
-var {{modelName}}ActionCreators =
-var {{modelName}}ActionCreators = require(../actions/{{modelName}}ActionCreators);
+var ToDoItemActionCreators =
+var ToDoItemActionCreators = require(../actions/ToDoItemActionCreators);
 
-var {{modelName}}HttpAPI = Marty.createStateSource({
-  create: function({{paramModelName}}) {
+var ToDoItemHttpAPI = Marty.createStateSource({
+  create: function(toDoItem) {
     this.post({
-      url: '{{sourceEndpoint}}',
-      body: {{paramModelName}}
+      url: 'http://endpoint.com/service/',
+      body: toDoItem
     }).then(function(response) {
-      {{modelName}}ActionCreators.create{{modelName}}(response.body);
+      ToDoItemActionCreators.createToDoItem(response.body);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});
@@ -18,9 +18,9 @@ var {{modelName}}HttpAPI = Marty.createStateSource({
 
   readAll: function() {
     this.get(
-      '{{sourceEndpoint}}'
+      'http://endpoint.com/service/'
     ).then(function(response) {
-      {{modelName}}ActionCreators.readAll{{pluralModelName}}(response.body);
+      ToDoItemActionCreators.readAllToDoItems(response.body);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});
@@ -28,12 +28,12 @@ var {{modelName}}HttpAPI = Marty.createStateSource({
     });
   },
 
-  update: function({{paramModelName}}) {
+  update: function(toDoItem) {
     this.put({
-      url: '{{sourceEndpoint}}' + {{paramModelName}}.id,
-      body: {{paramModelName}}
+      url: 'http://endpoint.com/service/' + toDoItem.id,
+      body: toDoItem
     }).then(function(response) {
-      {{modelName}}ActionCreators.update{{modelName}}(response.body);
+      ToDoItemActionCreators.updateToDoItem(response.body);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});
@@ -42,11 +42,11 @@ var {{modelName}}HttpAPI = Marty.createStateSource({
 
   },
 
-  destroy: function({{paramModelName}}) {
+  destroy: function(toDoItem) {
     this.delete(
-      '{{sourceEndpoint}}' + {{paramModelName}}.id
+      'http://endpoint.com/service/' + toDoItem.id
     ).then(function(response) {
-      {{modelName}}AcionCreators.destroy{{modelName}}(response.body);
+      ToDoItemAcionCreators.destroyToDoItem(response.body);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});
@@ -55,4 +55,4 @@ var {{modelName}}HttpAPI = Marty.createStateSource({
   },
 });
 
-module.exports = {{modelName}}HttpAPI;
+module.exports = ToDoItemHttpAPI;

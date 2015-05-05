@@ -36,7 +36,7 @@ var underscoreModelName = function(modelName) {
   return modelName.split(/(?=[A-Z])/).join('_');
 };
 
-var modelContext = function(modelName) {
+var modelContext = function(modelName, endpoint) {
   if(!isCapitalized(modelName.charAt(0))) {
     fail('Model name must be in CamelCase');
   }
@@ -56,12 +56,13 @@ var modelContext = function(modelName) {
     updateModelConstant: 'UPDATE_' + underscoredName,
     removeModelConstant: 'REMOVE_' + underscoredName,
     storeName: modelName + 'Store',
-    stateName: modelName + 'State'
+    stateName: modelName + 'State',
+    sourceEndpoint: endpoint ? endpoint : ''
   };
 };
 
-var generateTemplateOutput = function(modelName, templatePath) {
-  var context = modelContext(modelName);
+var generateTemplateOutput = function(modelName, templatePath, endpoint) {
+  var context = modelContext(modelName, endpoint);
   var templateText = FileHelpers.getTemplateText(templatePath);
 
   var template = Handlebars.compile(templateText);
@@ -103,7 +104,17 @@ var generateSource = function(sourceType, modelName, url) {
     fail('Sorry, but only the http source is supported right now');
   }
 
-  SourceGenerators[sourceType](modelName);
+  // Future enhancement
+  // SourceGenerators[sourceType](modelName);
+  console.log('Creating %s source ...', modelName);
+  var output = generateTemplateOutput(modelName, './templates/source.tmpl', url.endpoint);
+
+  var fileName = modelName + 'HttpAPI.jsx';
+  console.log("Writing file '%s' ...", fileName);
+
+  FileHelpers.writeFile(fileName, output);
+
+  console.log('%s source created successfully.', modelName);
 };
 
 var generateComponent = function(modelName) {
