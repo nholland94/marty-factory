@@ -107,7 +107,7 @@ var generateSource = function(sourceType, modelName, url) {
 };
 
 var generateComponent = function(modelName) {
-  console.log('Creating %s component...', modelName);
+  console.log('Creating %s component ...', modelName);
   var output = generateTemplateOutput(modelName, './templates/component.tmpl');
 
   var fileName = modelName + '.jsx';
@@ -119,7 +119,7 @@ var generateComponent = function(modelName) {
 };
 
 var generateStateMixin = function(modelName) {
-  console.log('Creating %s state mixin...', modelName);
+  console.log('Creating %s state mixin ...', modelName);
   var output = generateTemplateOutput(modelName, './templates/state_mixin.tmpl');
 
   var fileName = modelName + 'State' + '.jsx';
