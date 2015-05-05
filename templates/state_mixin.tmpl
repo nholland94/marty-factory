@@ -1,1 +1,14 @@
+var Marty = require('marty');
+var {{storeName}} = require('../stores/{{storeName}}');
 
+var {{stateName}} = Marty.createStateMixin({
+  listenTo: [{{storeName}}],
+
+  getState: function() {
+    return {
+      {{paramModelName}}:
+    }
+  }
+});
+
+module.exports = {{stateName}};

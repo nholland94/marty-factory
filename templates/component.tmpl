@@ -5,6 +5,20 @@ var {{stateName}} = require('../mixins/{{stateName}}');
 var {{modelName}} = React.createClass({
   mixins: [{{stateName}}],
 
+  getDefaultProps: function() {
+    return {
+
+    };
+  },
+
+  /*
+  * This function is not necessary if using the state mixin. If you are not, you
+  * should implement it.
+  */
+  // getInitialState: function() {
+  //
+  // },
+
   render: function() {
     return (
       <div />
@@ -20,6 +34,10 @@ var {{modelName}} = React.createClass({
   },
 
   componentWillReceiveProps: function(nextProps) {
+
+  },
+
+  componentShouldUpdate: function(nextProps, nextState) {
 
   },
 

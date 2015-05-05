@@ -2,7 +2,7 @@ var Marty = require('marty');
 var {{constantsName}} = require('../constants/{{constantsName}}');
 
 var {{storeName}} = Marty.createStore({
-  displayName: {{pluralModelVariableName}},
+  displayName: '{{pluralModelVariableName}}Store',
 
   handlers: {
     receive{{pluralModelName}}: {{constantsName}}.{{receiveModelConstant}},
@@ -15,19 +15,19 @@ var {{storeName}} = Marty.createStore({
     return [];
   },
 
-  getAll{{pluralModelName}}: function() {
+  getAll{{paramModelNamePlural}}: function() {
     return this.state;
   },
 
-  set{{modelName}}: function({{modelVariableName}}) {
-    this.state[{{modelVariableName}}.id] = {{modelVariableName}};
+  set{{modelName}}: function({{paramModelName}}) {
+    this.state[{{paramModelName}}.id] = {{paramModelName}};
   },
 
-  receive{{pluralModelName}}: function({{pluralModelVariableName}}) {
+  receive{{pluralModelName}}: function({{paramModelNamePlural}}) {
     var store = this;
 
-    {{pluralModelVariableName}}.forEach(function({{modelVariableName}}) {
-      store.set{{modelName}}({{modelVariableName}});
+    {{paramModelNamePlural}}.forEach(function({{paramModelName}}) {
+      store.set{{modelName}}({{paramModelName}});
     });
 
     this.hasChanged();
@@ -41,9 +41,9 @@ var {{storeName}} = Marty.createStore({
     this.set{{modelName}}({{modelVariableName}});
   },
 
-  remove{{modelName}}: function({{modelVariableName}}Id) {
-    if({{modelVariableName}}Id in this.state) {
-      delete this.state[{{modelVariableName}}Id];
+  remove{{modelName}}: function({{paramModelName}}Id) {
+    if({{paramModelName}}Id in this.state) {
+      delete this.state[{{paramModelName}}Id];
       this.hasChanged();
     }
   }

@@ -47,6 +47,7 @@ var modelContext = function(modelName) {
     modelName: modelName,
     pluralModelName: pluralize(modelName),
     paramModelName: lowerCaseFirstLetter(modelName),
+    paramModelNamePlural: lowerCaseFirstLetter(pluralize(modelName)),
     modelVariableName: capitalizeFirstLetter(modelName),
     pluralModelVariableName: pluralize(capitalizeFirstLetter(modelName)),
     constantsName: modelName + 'Constants',
@@ -117,6 +118,19 @@ var generateComponent = function(modelName) {
   console.log('%s component created successfully.', modelName);
 };
 
+var generateStateMixin = function(modelName) {
+  console.log('Creating %s state mixin...', modelName);
+  var output = generateTemplateOutput(modelName, './templates/state_mixin.tmpl');
+
+  var fileName = modelName + 'State' + '.jsx';
+  console.log("Writing file '%s' ...", fileName);
+
+  FileHelpers.writeFile(fileName, output);
+
+  console.log('%s state mixin created successfully.', modelName);
+};
+
+
 var program = require('commander');
 
 program.version(pkg.version);
@@ -138,10 +152,13 @@ program
   .action(generateSource);
 
 program
+  .command('state-mixin <modelName>')
+  .description('Generate a state mixin for the specified model.')
+  .action(generateStateMixin);
+
+program
   .command('store <modelName>')
   .description('Generate a store and state mixin.')
   .action(generateStore);
-
-
 
 program.parse(process.argv);
