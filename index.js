@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var path = require('path');
 var pkg = require(path.join(__dirname, 'package.json'));
 var Handlebars = require('handlebars');
