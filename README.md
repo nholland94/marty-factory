@@ -34,7 +34,7 @@ ToDoItem constants created successfully.
 ### Source
 
 You may generate a source by navigating to the directory where you would like
-the file generated. *Current only HTTP sources are supported.* Once there, execute the following:
+the file generated. **Currently only HTTP sources are supported.** Once there, execute the following:
 
 ```bash
 $ marty-factory source http ToDoItem
