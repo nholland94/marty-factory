@@ -7,6 +7,34 @@ This project is still under development and is not yet complete.
 
 Marty-Factory supports the following commands and arguments:
 
+### Init
+
+This command provides a convenience for creating a group of folders we use for
+organization. As a result, the generated code assumes the folders created by
+this command exist at the same hierarchy level.
+
+```bash
+$ marty-factory init
+Creating Flux/React folders in "current directory" ...
+Flux and React folders have been initialized.
+```
+
+This generates the following folders: `actions`, `constants`, `components`,
+`mixins`, `stores`, and `sources`.
+
+You may also provide a path argument to the command using `-p`.
+
+```bash
+$marty-factory init -p react
+Creating Flux/React folders in "/Your/path/to/wherever/react" ...
+Flux and React folders have been initialized.
+```
+
+This is simply a convenience method at this point, but will be used in the
+future to generate a configuration file to allow you to run `marty-factory`
+commands from anywhere inside your project and the resulting file(s) will
+automatically be placed in the correct folder.
+
 ### Component
 
 You may generate a component by navigating to the directory where you would like

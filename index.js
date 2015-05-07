@@ -6,6 +6,10 @@ var Handlebars = require('handlebars');
 var pluralize = require('pluralize');
 var FileHelpers = require(path.join(__dirname+'/lib/', 'file_helpers'));
 
+var fluxFolders = [
+  'actions', 'constants', 'components', 'mixins', 'stores', 'sources'
+];
+
 var merge = function(base) {
   var otherObjects = arguments.splice(0, 1);
   for(var i in otherObjects) {
@@ -143,6 +147,20 @@ var generateStateMixin = function(modelName) {
   console.log('%s state mixin created successfully.', modelName);
 };
 
+var initFolders = function(folderPath) {
+  console.log('Creating Flux/React folders in "%s" ...', path.path ? path.path : 'current directory');
+
+  var targetPath = folderPath.path ? folderPath.path : path.join(__dirname, '/');
+
+  fluxFolders.forEach(function(folderName) {
+    var result = FileHelpers.createDirectory(targetPath, folderName);
+    if(result) {
+      console.log('%s created successfully.', folderName);
+    }
+  });
+
+  console.log('Flux and React folders have been initialized.');
+};
 
 var program = require('commander');
 
@@ -157,6 +175,12 @@ program
   .command('constants <modelName>')
   .description('Generate constants for a model.')
   .action(generateConstants);
+
+program
+  .command('init')
+  .option('-p, --path [folderPath]', 'Path to place Flux/React folders')
+  .description('Creates the Actions, Constants, Components, Mixins, Sources, and Stores folders in the current directory or the folder specified by -p')
+  .action(initFolders);
 
 program
   .command('source <sourceType> <modelName>')
