@@ -53,7 +53,7 @@ var modelContext = function(modelName, endpoint) {
     modelName: modelName,
     pluralModelName: pluralize(modelName),
     paramModelName: lowerCaseFirstLetter(modelName),
-    paramModelNamePlural: lowerCaseFirstLetter(pluralize(modelName)),
+    pluralParamModelName: lowerCaseFirstLetter(pluralize(modelName)),
     modelVariableName: capitalizeFirstLetter(modelName),
     pluralModelVariableName: pluralize(capitalizeFirstLetter(modelName)),
     constantsName: modelName + 'Constants',
@@ -110,6 +110,11 @@ var generateSource = function(sourceType, modelName, url) {
     fail('Sorry, but only the http source is supported right now');
   }
 
+  // We need endpoints to end with a /
+  if(url.indexOf('/', url.length-1) === -1) {
+    url = url + '/';
+  }
+
   // Future enhancement
   // SourceGenerators[sourceType](modelName);
   console.log('Creating %s source ...', modelName);
@@ -147,6 +152,18 @@ var generateStateMixin = function(modelName) {
   console.log('%s state mixin created successfully.', modelName);
 };
 
+var generateActions = function(modelName) {
+  console.log('Creating %s action creators ...', modelName);
+  var output = generateTemplateOutput(modelName, './templates/action_creators.tmpl');
+
+  var fileName = modelName + 'ActionCreators.jsx';
+  console.log("Writing file '%s' ...", fileName);
+
+  FileHelpers.writeFile(fileName, output);
+
+  console.log('%s action creators created successfully.', modelName);
+};
+
 var initFolders = function(folderPath) {
   console.log('Creating Flux/React folders in "%s" ...', path.path ? path.path : 'current directory');
 
@@ -165,6 +182,11 @@ var initFolders = function(folderPath) {
 var program = require('commander');
 
 program.version(pkg.version);
+
+program
+  .command('actions <modelName>')
+  .description('Generates action creators.')
+  .action(generateActions);
 
 program
   .command('component <modelName>')

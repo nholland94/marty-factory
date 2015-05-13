@@ -1,0 +1,22 @@
+var Marty = require('marty');
+var {{constantsName}} = require('constants/{{constantsName}}');
+
+var {{modelName}}ActionCreators = Marty.createActionCreators({
+  create: function({{paramModelName}}) {
+    this.dispatch({{modelName}}Constants.{{addModelConstant}}, {{paramModelName}});
+  },
+
+  receiveAll: function({{pluralParamModelName}}) {
+    this.dispatch({{constantsName}}.{{receiveModelConstant}}, {{pluralParamModelName}});
+  },
+
+  update: function({{paramModelName}}) {
+    this.dispatch({{constantsName}}.{{updateModelConstant}}, {{paramModelName}});
+  },
+
+  destroy: function({{paramModelName}}) {
+    this.dispatch({{constantsName}}.{{removeModelConstant}}, {{paramModelName}});
+  }
+});
+
+module.exports = {{modelName}}ActionCreators;
