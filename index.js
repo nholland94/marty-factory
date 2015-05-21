@@ -58,9 +58,9 @@ var modelContext = function(modelName, endpoint) {
     pluralModelVariableName: pluralize(capitalizeFirstLetter(modelName)),
     constantsName: modelName + 'Constants',
     receiveModelConstant: 'RECEIVE_' + underscoredPluralName,
-    addModelConstant: 'ADD_' + underscoredName,
+    addModelConstant: 'CREATE_' + underscoredName,
     updateModelConstant: 'UPDATE_' + underscoredName,
-    removeModelConstant: 'REMOVE_' + underscoredName,
+    removeModelConstant: 'DESTROY_' + underscoredName,
     storeName: modelName + 'Store',
     stateName: modelName + 'State',
     sourceEndpoint: endpoint ? endpoint : ''
