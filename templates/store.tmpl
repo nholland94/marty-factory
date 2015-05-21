@@ -1,51 +1,54 @@
 var Marty = require('marty');
-var {{constantsName}} = require('../constants/{{constantsName}}');
+var {{constantsName}} = require('constants/{{constantsName}}');
 
 var {{storeName}} = Marty.createStore({
-  displayName: '{{pluralModelVariableName}}Store',
+  displayName: '{{storeName}}',
 
   handlers: {
-    receive{{pluralModelName}}: {{constantsName}}.{{receiveModelConstant}},
-    add{{modelName}}: {{constantsName}}.{{addModelConstant}},
-    update{{modelName}}: {{constantsName}}.{{updateModelConstant}},
-    remove{{modelName}}: {{constantsName}}.{{removeModelConstant}}
+    create: {{constantsName}}.{{createModelConstant}},
+    receive: {{constantsName}}.{{receiveModelConstant}},
+    update: {{constantsName}}.{{updateModelConstant}},
+    destroy: {{constantsName}}.{{destroyModelConstant}}
   },
 
   getInitialState: function() {
-    return [];
+    return {};
   },
 
-  getAll{{pluralModelName}}: function() {
-    return this.state;
-  },
-
-  set{{modelName}}: function({{paramModelName}}) {
+  create: function({{paramModelName}}) {
     this.state[{{paramModelName}}.id] = {{paramModelName}};
+    this.hasChanged();
   },
 
-  receive{{pluralModelName}}: function({{paramModelNamePlural}}) {
+  receive: function({{pluralParamModelName}}) {
     var store = this;
 
-    {{paramModelNamePlural}}.forEach(function({{paramModelName}}) {
-      store.set{{modelName}}({{paramModelName}});
+    {{pluralParamModelName}}.forEach(function({{paramModelName}}) {
+      store.state[{{paramModelName}}.id] = {{paramModelName}};
     });
 
     this.hasChanged();
   },
 
-  add{{modelName}}: function({{modelVariableName}}) {
-    this.set{{modelName}}({{modelVariableName}});
+  update: function(id, {{paramModelName}}) {
+    this.state[id] = {{paramModelName}};
+    this.hasChanged();
   },
 
-  update{{modelName}}: function({{modelVariableName}}) {
-    this.set{{modelName}}({{modelVariableName}});
+  destroy: function(id) {
+    delete this.state[id];
+    this.hasChanged();
   },
 
-  remove{{modelName}}: function({{paramModelName}}Id) {
-    if({{paramModelName}}Id in this.state) {
-      delete this.state[{{paramModelName}}Id];
-      this.hasChanged();
-    }
+  getAll: function() {
+    varr store = this;
+    return Object.keys(this.state).map(function(key) {
+      return store.state[key];
+    });
+  },
+
+  get: function(id) {
+    return this.state[id];
   }
 });
 

@@ -1,9 +1,9 @@
 var Marty = require('marty');
 var {{constantsName}} = require('constants/{{constantsName}}');
 
-var {{modelName}}ActionCreators = Marty.createActionCreators({
+var {{actionCreatorsName}} = Marty.createActionCreators({
   create: function({{paramModelName}}) {
-    this.dispatch({{modelName}}Constants.{{addModelConstant}}, {{paramModelName}});
+    this.dispatch({{constantsName}}.{{createModelConstant}}, {{paramModelName}});
   },
 
   receive: function({{pluralParamModelName}}) {
@@ -15,8 +15,8 @@ var {{modelName}}ActionCreators = Marty.createActionCreators({
   },
 
   destroy: function(id) {
-    this.dispatch({{constantsName}}.{{removeModelConstant}}, id);
+    this.dispatch({{constantsName}}.{{destroyModelConstant}}, id);
   }
 });
 
-module.exports = {{modelName}}ActionCreators;
+module.exports = {{actionCreatorsName}};

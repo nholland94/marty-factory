@@ -1,15 +1,15 @@
 var Marty = require('marty');
-var {{modelName}}ActionCreators = require('actions/{{modelName}}ActionCreators');
+var {{actionCreatorsName}} = require('actions/{{actionCreatorsName}}');
 
 var {{modelName}}HttpAPI = Marty.createStateSource({
-  rootUrl: {{sourceEndpoint}},
+  rootUrl: '{{sourceEndpoint}}',
 
   create: function({{paramModelName}}) {
     this.post({
       url: this.rootUrl,
       body: {{paramModelName}}
     }).then(function(response) {
-      {{modelName}}ActionCreators.create(response.body);
+      {{actionCreatorsName}}.create(response.body);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});
@@ -21,7 +21,7 @@ var {{modelName}}HttpAPI = Marty.createStateSource({
     this.get(
       this.rootUrl
     ).then(function(response) {
-      {{modelName}}ActionCreators.readAll(response.body);
+      {{actionCreatorsName}}.receive(response.body);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});
@@ -34,7 +34,7 @@ var {{modelName}}HttpAPI = Marty.createStateSource({
     this.get(
       url
     ).then(function(response) {
-      {{modelName}}ActionCreators.receive([response.body]);
+      {{actionCreatorsName}}.receive([response.body]);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});
@@ -48,7 +48,7 @@ var {{modelName}}HttpAPI = Marty.createStateSource({
       url: url,
       body: {{paramModelName}}
     }).then(function(response) {
-      {{modelName}}ActionCreators.update(response.body);
+      {{actionCreatorsName}}.update(response.body);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});
@@ -62,7 +62,7 @@ var {{modelName}}HttpAPI = Marty.createStateSource({
     this.delete(
       url
     ).then(function(response) {
-      {{modelName}}AcionCreators.destroy(id);
+      {{actionCreatorsName}}.destroy(id);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});

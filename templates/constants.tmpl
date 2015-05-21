@@ -1,10 +1,10 @@
 var Marty = require('marty');
 
-var {{modelName}}Constants = Marty.createConstants([
+var {{constantsName}} = Marty.createConstants([
+  '{{createModelConstant}}',
   '{{receiveModelConstant}}',
-  '{{addModelConstant}}',
   '{{updateModelConstant}}',
-  '{{removeModelConstant}}'
+  '{{destroyModelConstant}}'
 ]);
 
-module.exports = {{modelName}}Constants;
+module.exports = {{constantsName}};

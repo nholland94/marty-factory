@@ -4,7 +4,7 @@ var path = require('path');
 var pkg = require(path.join(__dirname, 'package.json'));
 var Handlebars = require('handlebars');
 var pluralize = require('pluralize');
-var FileHelpers = require(path.join(__dirname+'/lib/', 'file_helpers'));
+var FileHelpers = require(path.join(__dirname + '/lib/', 'file_helpers'));
 
 var fluxFolders = [
   'actions', 'constants', 'components', 'mixins', 'stores', 'sources'
@@ -57,11 +57,12 @@ var modelContext = function(modelName, endpoint) {
     modelVariableName: capitalizeFirstLetter(modelName),
     pluralModelVariableName: pluralize(capitalizeFirstLetter(modelName)),
     constantsName: modelName + 'Constants',
+    createModelConstant: 'CREATE_' + underscoredName,
     receiveModelConstant: 'RECEIVE_' + underscoredPluralName,
-    addModelConstant: 'CREATE_' + underscoredName,
     updateModelConstant: 'UPDATE_' + underscoredName,
-    removeModelConstant: 'DESTROY_' + underscoredName,
+    destroyModelConstant: 'DESTROY_' + underscoredName,
     storeName: modelName + 'Store',
+    actionCreatorsName: modelName + 'ActionCreators',
     stateName: modelName + 'State',
     sourceEndpoint: endpoint ? endpoint : ''
   };
@@ -111,7 +112,8 @@ var generateSource = function(sourceType, modelName, url) {
   }
 
   // We need endpoints to end with a /
-  if(url.indexOf('/', url.length-1) === -1) {
+  var endpoint = url.endpoint;
+  if(endpoint.indexOf('/', endpoint.length-1) === -1) {
     url = url + '/';
   }
 

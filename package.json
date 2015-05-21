@@ -1,5 +1,5 @@
 {
-  "name": "marty-factory",
+  "name": "hoverboard",
   "version": "0.0.1",
   "description": "A CLI tool for generating basic pieces of marty architecture",
   "main": "index.js",
