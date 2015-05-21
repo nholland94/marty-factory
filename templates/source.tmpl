@@ -2,12 +2,14 @@ var Marty = require('marty');
 var {{modelName}}ActionCreators = require('actions/{{modelName}}ActionCreators');
 
 var {{modelName}}HttpAPI = Marty.createStateSource({
+  rootUrl: {{sourceEndpoint}},
+
   create: function({{paramModelName}}) {
     this.post({
-      url: '{{sourceEndpoint}}',
+      url: this.rootUrl,
       body: {{paramModelName}}
     }).then(function(response) {
-      {{modelName}}ActionCreators.create{{modelName}}(response.body);
+      {{modelName}}ActionCreators.create(response.body);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});
@@ -15,11 +17,11 @@ var {{modelName}}HttpAPI = Marty.createStateSource({
     });
   },
 
-  readAll: function() {
+  getAll: function() {
     this.get(
-      '{{sourceEndpoint}}'
+      this.rootUrl
     ).then(function(response) {
-      {{modelName}}ActionCreators.readAll{{pluralModelName}}(response.body);
+      {{modelName}}ActionCreators.readAll(response.body);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});
@@ -27,12 +29,26 @@ var {{modelName}}HttpAPI = Marty.createStateSource({
     });
   },
 
-  update: function({{paramModelName}}) {
+  getById: function(id) {
+    var url = this.rootUrl + id;
+    this.get(
+      url
+    ).then(function(response) {
+      {{modelName}}ActionCreators.receive([response.body]);
+    }, function(errorResponse) {
+      if(errorResponse.hasBody) {
+        errorResponse.json().then(function() {}, function() {});
+      }
+    });
+  },
+
+  update: function(id, {{paramModelName}}) {
+    var url = this.rootUrl + id;
     this.put({
-      url: '{{sourceEndpoint}}' + {{paramModelName}}.id,
+      url: url,
       body: {{paramModelName}}
     }).then(function(response) {
-      {{modelName}}ActionCreators.update{{modelName}}(response.body);
+      {{modelName}}ActionCreators.update(response.body);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});
@@ -41,11 +57,12 @@ var {{modelName}}HttpAPI = Marty.createStateSource({
 
   },
 
-  destroy: function({{paramModelName}}) {
+  destroy: function(id) {
+    var url = this.rootUrl + id
     this.delete(
-      '{{sourceEndpoint}}' + {{paramModelName}}.id
+      url
     ).then(function(response) {
-      {{modelName}}AcionCreators.destroy{{modelName}}(response.body);
+      {{modelName}}AcionCreators.destroy(id);
     }, function(errorResponse) {
       if(errorResponse.hasBody) {
         errorResponse.json().then(function() {}, function() {});

@@ -6,16 +6,16 @@ var {{modelName}}ActionCreators = Marty.createActionCreators({
     this.dispatch({{modelName}}Constants.{{addModelConstant}}, {{paramModelName}});
   },
 
-  receiveAll: function({{pluralParamModelName}}) {
+  receive: function({{pluralParamModelName}}) {
     this.dispatch({{constantsName}}.{{receiveModelConstant}}, {{pluralParamModelName}});
   },
 
-  update: function({{paramModelName}}) {
-    this.dispatch({{constantsName}}.{{updateModelConstant}}, {{paramModelName}});
+  update: function(id, {{paramModelName}}) {
+    this.dispatch({{constantsName}}.{{updateModelConstant}}, id, {{paramModelName}});
   },
 
-  destroy: function({{paramModelName}}) {
-    this.dispatch({{constantsName}}.{{removeModelConstant}}, {{paramModelName}});
+  destroy: function(id) {
+    this.dispatch({{constantsName}}.{{removeModelConstant}}, id);
   }
 });
 
