@@ -71,6 +71,16 @@ Writing file 'ToDoItemHttpAPI.jsx' ...
 ToDoItem source created successfully.
 ```
 
+You should specify an endpoint if you'd like the API calls auto-generated for
+you using either `-e` or `--endpoint`:
+
+```bash
+$ hoverboard source http ToDoItem --endpoint /your/api/endpoint/todos/
+Creating ToDoItem source ...
+Writing file 'TodoItemHttpAPI.jsz' ...
+ToDoItem source created successfully.
+```
+
 ### State Mixin
 
 You may generate a state mixin by navigating to the directory where you would like
