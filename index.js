@@ -181,6 +181,24 @@ var initFolders = function(folderPath) {
   console.log('Flux and React folders have been initialized.');
 };
 
+var generateAll = function(modelName, dashArgs) {
+  console.log('sourcetype', dashArgs.sourcetype);
+  console.log('endpoint', dashArgs.endpoint);
+  if(!dashArgs.sourcetype || !dashArgs.endpoint) {
+    console.log('You must provide the sourcetype and endpoint');
+    return;
+  }
+
+  generateConstants(modelName);
+  generateActions(modelName);
+  generateComponent(modelName);
+  generateSource(dashArgs.sourcetype, modelName, dashArgs);
+  generateStateMixin(modelName);
+  generateStore(modelName);
+
+  console.log('Complete.');
+};
+
 var program = require('commander');
 
 program.version(pkg.version);
@@ -221,5 +239,12 @@ program
   .command('store <modelName>')
   .description('Generate a store and state mixin.')
   .action(generateStore);
+
+program
+  .command('all <modelName>')
+  .option('-s, --sourcetype [sourcetype]', 'Source type (only http supported currently)')
+  .option('-e, --endpoint [url]', 'API endpoint for Source')
+  .description('Generate all MartyJS flux files for specified model.')
+  .action(generateAll);
 
 program.parse(process.argv);
