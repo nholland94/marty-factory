@@ -182,8 +182,6 @@ var initFolders = function(folderPath) {
 };
 
 var generateAll = function(modelName, dashArgs) {
-  console.log('sourcetype', dashArgs.sourcetype);
-  console.log('endpoint', dashArgs.endpoint);
   if(!dashArgs.sourcetype || !dashArgs.endpoint) {
     console.log('You must provide the sourcetype and endpoint');
     return;
