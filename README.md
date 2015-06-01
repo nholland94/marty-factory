@@ -1,4 +1,4 @@
-# Hoverboard
+# Marty-Hoverboard
 
 A rails-like generation tool for the [martyjs](http://www.martyjs.org) flux
 implementation.
@@ -107,3 +107,14 @@ Creating ToDoItem store ...
 Writing file 'ToDoItemStore.jsx' ...
 ToDoItem store created successfully.
 ```
+
+### All
+
+You may wish to generate all of these files at once. Hoverboard supports this
+via the `all` command. You must specify a `sourcetype` (which currently only
+allows `http`) and an `endpoint`.
+
+```bash
+$ hoverboard all ToDoItem --sourcetype http --endpoint /your/api/endpoint/
+```
+
